@@ -32,7 +32,7 @@ int main() {
 	/*student1 information */
 
 	struct student student1 ;
-	strcpy(student1.name ,"Ahmed ismail" ) ;
+	strcpy(student1.name ,"Ahmed Nour" ) ;
 	student1.id=20016;
 	student1.dob.day=20;
 	student1.dob.month=5;
