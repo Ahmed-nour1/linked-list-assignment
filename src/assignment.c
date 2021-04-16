@@ -12,19 +12,14 @@
 #include <string.h>
 #include <stdlib.h>
 
-struct date {
-	int day ;
+
+struct student {
+	char name[20] ;
+    int id ;
+    int score ;
+    int day ;
     int month;
     int year ;
-
-
-
-};
-struct student {
-	char* name ;
-    int id ;
-    struct date dob ;
-    int score ;
 
 };
 
@@ -33,36 +28,36 @@ struct student {
 	   struct student* data;
 	   struct node* next;
 };
+   struct node* head = NULL;
 
-void CreateList(struct student student1);
+
+void CreateList();
+void InsertAtBegin();
+void InsertAtEnd();
+void InsertAtMiddle();
+void DisplayList();
+void DisplayAll();
 
 int main() {
 	setvbuf(stdout, NULL, _IONBF, 0);
 	setvbuf(stderr, NULL, _IONBF, 0);
 
-
-	/*student1 information */
-
-	struct student student1 ;
-	student1.name = "Ahmed Nour";
-	student1.id=20016;
-	student1.dob.day=20;
-	student1.dob.month=5;
-	student1.dob.year=2000;
-	student1.score=80;
-
-	/*print student1 info*/
-
-	   printf( "student 1 Name : %s\n", student1.name);
-	   printf( "student 1 id : %d\n",   student1.id);
-	   printf( "student 1 date of birth : %d", student1.dob.day);
-	   printf("/%d",student1.dob.month);
-	   printf("/%d\n",student1.dob.year);
-
-	   printf( "student 1 score: %d\n", student1.score);
-
+	//Taking number of students as input
+	   printf("Please enter the number of students");
+	   int n;
+	   scanf("%d",&n);
 	   //Create a linked list
-	   CreateList(student1);
+	   CreateList(n);
+	   //Insert new student at Beginning
+	   InsertAtBegin();
+	   //Insert a new student at End
+	   InsertAtEnd();
+	   //Insert a new student at a certain position
+	   InsertAtMiddle();
+	   //Display student's data at a certain position
+	   DisplayAll();
+
+
 
 return 0;
 }
@@ -71,29 +66,42 @@ return 0;
 
 
 //Function to create a linked list
-void CreateList(struct student student1){
-int n = 0;
-printf("Please enter the number of students");
-scanf("%d",&n);
-if(n>0){
-	struct node* head = NULL;
-	struct node* tmp = NULL;
+void CreateList(int n){
+    struct node* tmp = NULL;
 	struct node* helpnode = NULL;
+	   //Input the number of students
+if(n>0){
 	head = (struct node*)malloc(sizeof(struct node));
 	head->data = (struct student*)malloc(sizeof(struct student));
-	head->data = &student1;
+	    if(head == NULL)
+    {
+        printf("Unable to allocate memory.");
+        exit(0);
+    }
+	printf("Input data for student 1 in the order: Name,ID,Score,Date(Day,Month,Year)");
+	scanf("%s",(head->data->name));
+	scanf("%d",&(head->data->id));
+	scanf("%d",&(head->data->score));
+	scanf("%d",&(head->data->day));
+	scanf("%d",&(head->data->month));
+	scanf("%d",&(head->data->year));
 	head->next = NULL;
 	tmp = head;
 	for(int i=2;i<=n;i++){
 		helpnode = (struct node*)malloc(sizeof(struct node));
 		helpnode->data = (struct student*)malloc(sizeof(struct student));
-		printf("Input data for node %d in the order: Name,ID,Score,Date(Day,Month,Year)",i);
+		if(helpnode == NULL)
+        {
+            printf("Unable to allocate memory.");
+            break;
+        }
+		printf("Input data for student %d in the order: Name,ID,Score,Date(Day,Month,Year)",i);
 		scanf("%s",(helpnode->data->name));
 		scanf("%d",&(helpnode->data->id));
 		scanf("%d",&(helpnode->data->score));
-		scanf("%d",&(helpnode->data->dob.day));
-		scanf("%d",&(helpnode->data->dob.month));
-		scanf("%d",&(helpnode->data->dob.year));
+		scanf("%d",&(helpnode->data->day));
+		scanf("%d",&(helpnode->data->month));
+		scanf("%d",&(helpnode->data->year));
 		helpnode->next = NULL;
 		tmp->next = helpnode;
 		tmp = tmp->next;
@@ -102,5 +110,94 @@ if(n>0){
 else{
 	printf("Incorrect input");
 }
+printf("Data Inserted successfully\n");
 return;
+}
+
+
+void InsertAtBegin(){
+	struct node* helpnode = NULL;
+	helpnode = (struct node*)malloc(sizeof(struct node));
+	printf("Insert data for new student at the beginning in the order: Name,ID,Score,Date(Day,Month,Year)");
+	scanf("%s",(helpnode->data->name));
+	scanf("%d",&(helpnode->data->id));
+	scanf("%d",&(helpnode->data->score));
+	scanf("%d",&(helpnode->data->day));
+	scanf("%d",&(helpnode->data->month));
+	scanf("%d",&(helpnode->data->year));
+	helpnode->next = head;
+	head = helpnode;
+	printf("New student inserted successfully\n");
+}
+
+void InsertAtEnd(){
+	struct node* helpnode = NULL;
+	struct node* tmp = NULL;
+	helpnode = (struct node*)malloc(sizeof(struct node));
+	printf("Insert data for new student at the end in the order: Name,ID,Score,Date(Day,Month,Year)");
+	scanf("%s",(helpnode->data->name));
+	scanf("%d",&(helpnode->data->id));
+	scanf("%d",&(helpnode->data->score));
+	scanf("%d",&(helpnode->data->day));
+	scanf("%d",&(helpnode->data->month));
+	scanf("%d",&(helpnode->data->year));
+	tmp = head;
+	while(tmp->next != NULL){
+		tmp = tmp->next;
+	}
+	tmp->next = helpnode;
+	helpnode->next = NULL;
+	printf("New student inserted successfully\n");
+}
+
+void InsertAtMiddle(){
+	struct node* helpnode = NULL;
+	struct node* tmp = NULL;
+	int position;
+	helpnode = (struct node*)malloc(sizeof(struct node));
+	printf("Insert the position to insert the new student");
+	scanf("%d",&position);
+	printf("Insert data for new student at the chosen position in the order: Name,ID,Score,Date(Day,Month,Year)");
+	scanf("%s",(helpnode->data->name));
+	scanf("%d",&(helpnode->data->id));
+	scanf("%d",&(helpnode->data->score));
+	scanf("%d",&(helpnode->data->day));
+	scanf("%d",&(helpnode->data->month));
+	scanf("%d",&(helpnode->data->year));
+	tmp = head;
+	for(int i=2;i<=position-1;i++){
+		tmp = tmp->next;
+	}
+	helpnode->next=tmp->next;
+	tmp->next = helpnode;
+	printf("New student inserted successfully\n");
+}
+
+void DisplayList(){
+	int n = 0;
+	struct node* tmp = NULL;
+	tmp = head;
+	printf("Please enter the position of the student");
+	scanf("%d",&n);
+	for(int i=1;i<=n;i++){
+		tmp = tmp->next;
+	}
+	printf("Name: %s\n",tmp->data->name);
+	printf("ID: %d\n",tmp->data->id);
+	printf("Score: %d\n",tmp->data->score);
+	printf("Date of birth: %d/%d/%d\n",tmp->data->day,tmp->data->month,tmp->data->year);
+}
+
+void DisplayAll(){
+	struct node* tmp = NULL;
+	tmp = head;
+	int i =1;
+	while(tmp != NULL){
+		printf("Name%d: %s\n",i,tmp->data->name);
+		printf("ID%d: %d\n",i,tmp->data->id);
+		printf("Score%d: %d\n",i,tmp->data->score);
+		printf("Date of birth%d: %d/%d/%d\n",i,tmp->data->day,tmp->data->month,tmp->data->year);
+		tmp = tmp->next;
+		i++;
+}
 }
