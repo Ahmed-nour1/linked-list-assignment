@@ -29,6 +29,7 @@ struct student {
 	   struct node* next;
 };
    struct node* head = NULL;
+   struct node* tail = NULL;
 
 
 void CreateList();
@@ -55,10 +56,9 @@ int main() {
 	   //Insert a new student at a certain position
 	   InsertAtMiddle();
 	   //Display student's data at a certain position
+	   DisplayList();
+	   //Display all the data
 	   DisplayAll();
-
-
-
 return 0;
 }
 
@@ -106,6 +106,7 @@ if(n>0){
 		tmp->next = helpnode;
 		tmp = tmp->next;
 }
+	tail = helpnode;
 }
 else{
 	printf("Incorrect input");
@@ -118,6 +119,7 @@ return;
 void InsertAtBegin(){
 	struct node* helpnode = NULL;
 	helpnode = (struct node*)malloc(sizeof(struct node));
+	helpnode->data = (struct student*)malloc(sizeof(struct student));
 	printf("Insert data for new student at the beginning in the order: Name,ID,Score,Date(Day,Month,Year)");
 	scanf("%s",(helpnode->data->name));
 	scanf("%d",&(helpnode->data->id));
@@ -132,8 +134,8 @@ void InsertAtBegin(){
 
 void InsertAtEnd(){
 	struct node* helpnode = NULL;
-	struct node* tmp = NULL;
 	helpnode = (struct node*)malloc(sizeof(struct node));
+	helpnode->data = (struct student*)malloc(sizeof(struct student));
 	printf("Insert data for new student at the end in the order: Name,ID,Score,Date(Day,Month,Year)");
 	scanf("%s",(helpnode->data->name));
 	scanf("%d",&(helpnode->data->id));
@@ -141,12 +143,9 @@ void InsertAtEnd(){
 	scanf("%d",&(helpnode->data->day));
 	scanf("%d",&(helpnode->data->month));
 	scanf("%d",&(helpnode->data->year));
-	tmp = head;
-	while(tmp->next != NULL){
-		tmp = tmp->next;
-	}
-	tmp->next = helpnode;
+	tail->next = helpnode;
 	helpnode->next = NULL;
+	tail = helpnode;
 	printf("New student inserted successfully\n");
 }
 
@@ -155,6 +154,7 @@ void InsertAtMiddle(){
 	struct node* tmp = NULL;
 	int position;
 	helpnode = (struct node*)malloc(sizeof(struct node));
+	helpnode->data = (struct student*)malloc(sizeof(struct student));
 	printf("Insert the position to insert the new student");
 	scanf("%d",&position);
 	printf("Insert data for new student at the chosen position in the order: Name,ID,Score,Date(Day,Month,Year)");
@@ -174,18 +174,29 @@ void InsertAtMiddle(){
 }
 
 void DisplayList(){
-	int n = 0;
+	int position = 0;
 	struct node* tmp = NULL;
 	tmp = head;
 	printf("Please enter the position of the student");
-	scanf("%d",&n);
-	for(int i=1;i<=n;i++){
+	scanf("%d",&position);
+	if(position==1){
+		printf("Name: %s\n",head->data->name);
+		printf("ID: %d\n",head->data->id);
+		printf("Score: %d\n",head->data->score);
+		printf("Date of birth: %d/%d/%d\n",head->data->day,head->data->month,head->data->year);
+
+	}
+	else{
+	for(int i=1;i<=position-1;i++){
 		tmp = tmp->next;
 	}
 	printf("Name: %s\n",tmp->data->name);
 	printf("ID: %d\n",tmp->data->id);
 	printf("Score: %d\n",tmp->data->score);
 	printf("Date of birth: %d/%d/%d\n",tmp->data->day,tmp->data->month,tmp->data->year);
+
+}
+	printf("----------------\n");
 }
 
 void DisplayAll(){
